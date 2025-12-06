@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Tetris</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'tetris/style.css' %}">
+</head>
+<body>
+    <div class="wrapper">
+        <header class="top-bar">
+            <h1>Tetris</h1>
+            <div class="score-panel">
+                <span>Wynik:</span>
+                <strong id="score">0</strong>
+            </div>
+        </header>
+        <main class="game-layout">
+            <section class="board-container">
+                <div id="board" class="board"></div>
+            </section>
+            <aside class="side-panel">
+                <div class="next-piece">
+                    <h2>Następny klocek</h2>
+                    <div id="next" class="next-grid"></div>
+                </div>
+                <button id="start" class="btn-primary">Start / Pauza</button>
+                <div class="help">
+                    <p>Sterowanie:</p>
+                    <ul>
+                        <li>← → : przesuwanie</li>
+                        <li>↑ : obrót</li>
+                        <li>↓ : szybszy opad</li>
+                        <li>Spacja : natychmiastowy opad</li>
+                    </ul>
+                </div>
+            </aside>
+        </main>
+    </div>
+    <script src="{% static 'tetris/tetris.js' %}"></script>
+</body>
+</html>
