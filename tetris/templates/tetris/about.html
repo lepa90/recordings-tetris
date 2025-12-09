@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O nas - Tetris</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'tetris/style.css' %}">
+    <style>
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background-color: #2c3e50;
+            padding: 15px 0;
+            margin-bottom: 30px;
+        }
+        
+        .navbar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+        
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px 20px;
+            transition: background-color 0.3s;
+            border-radius: 5px;
+        }
+        
+        .navbar a:hover {
+            background-color: #34495e;
+        }
+        
+        .about-content {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .about-content h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .about-content h2 {
+            color: #34495e;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .about-content p {
+            color: #7f8c8d;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .info-box {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        
+        .info-box h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .info-box ul {
+            color: #7f8c8d;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <ul>
+            <li><a href="{% url 'home' %}">Strona Główna</a></li>
+            <li><a href="{% url 'tetris' %}">Graj w Tetris</a></li>
+            <li><a href="{% url 'about' %}">O nas</a></li>
+        </ul>
+    </nav>
+    
+    <div class="about-container">
+        <div class="about-content">
+            <h1>O nas</h1>
+            
+            <p>Witamy w naszej internetowej wersji klasycznej gry Tetris! Nasz projekt został stworzony z pasją do gier retro i programowania.</p>
+            
+            <h2>Historia projektu</h2>
+            <p>Tetris to jedna z najbardziej kultowych gier komputerowych wszech czasów, stworzona przez Aleksieja Pażytnowa w 1984 roku. Nasza implementacja oddaje ducha oryginalnej gry, jednocześnie wykorzystując nowoczesne technologie webowe.</p>
+            
+            <div class="info-box">
+                <h3>Technologie</h3>
+                <ul>
+                    <li><strong>Backend:</strong> Django (Python)</li>
+                    <li><strong>Frontend:</strong> HTML5, CSS3, JavaScript</li>
+                    <li><strong>Grafika:</strong> Canvas API</li>
+                </ul>
+            </div>
+            
+            <h2>Jak grać?</h2>
+            <p>Gra polega na układaniu spadających klocków (tetromino) w taki sposób, aby tworzyły kompletne poziome linie. Każda uzupełniona linia zostaje usunięta, a gracz otrzymuje punkty. Gra kończy się, gdy klocki osiągną górę planszy.</p>
+            
+            <div class="info-box">
+                <h3>Sterowanie</h3>
+                <ul>
+                    <li><strong>Strzałka w lewo/prawo:</strong> przesuwanie klocka</li>
+                    <li><strong>Strzałka w górę:</strong> obrót klocka</li>
+                    <li><strong>Strzałka w dół:</strong> przyspieszenie opadania</li>
+                    <li><strong>Spacja:</strong> natychmiastowy opad</li>
+                </ul>
+            </div>
+            
+            <h2>Kontakt</h2>
+            <p>Jeśli masz pytania, sugestie lub chcesz zgłosić błąd, zapraszamy do kontaktu.</p>
+            
+            <p style="text-align: center; margin-top: 40px; color: #95a5a6;">
+                © 2025 Tetris Project. Stworzone z ❤️ dla fanów klasycznych gier.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

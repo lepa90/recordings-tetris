@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strona Główna - Tetris</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'tetris/style.css' %}">
+    <style>
+        .home-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background-color: #2c3e50;
+            padding: 15px 0;
+            margin-bottom: 30px;
+        }
+        
+        .navbar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+        
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px 20px;
+            transition: background-color 0.3s;
+            border-radius: 5px;
+        }
+        
+        .navbar a:hover {
+            background-color: #34495e;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 50px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 40px;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .btn-play {
+            display: inline-block;
+            background-color: #27ae60;
+            color: white;
+            padding: 15px 40px;
+            font-size: 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-play:hover {
+            background-color: #229954;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .feature-card {
+            background-color: #ecf0f1;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .feature-card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card p {
+            color: #7f8c8d;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <ul>
+            <li><a href="{% url 'home' %}">Strona Główna</a></li>
+            <li><a href="{% url 'tetris' %}">Graj w Tetris</a></li>
+            <li><a href="{% url 'about' %}">O nas</a></li>
+        </ul>
+    </nav>
+    
+    <div class="home-container">
+        <div class="hero">
+            <h1>Witaj w Tetris!</h1>
+            <p>Klasyczna gra logiczna - teraz w przeglądarce!</p>
+            <a href="{% url 'tetris' %}" class="btn-play">Zagraj Teraz</a>
+        </div>
+        
+        <div class="features">
+            <div class="feature-card">
+                <h3>🎮 Klasyczna Rozgrywka</h3>
+                <p>Ciesz się klasyczną mechaniką Tetrisa z intuicyjnym sterowaniem i płynną grafiką.</p>
+            </div>
+            
+            <div class="feature-card">
+                <h3>📊 System Punktacji</h3>
+                <p>Zdobywaj punkty za każdą usuniętą linię i rywalizuj o najlepszy wynik!</p>
+            </div>
+            
+            <div class="feature-card">
+                <h3>⚡ Graj w Przeglądarce</h3>
+                <p>Nie wymaga instalacji - po prostu otwórz i graj bezpośrednio w przeglądarce.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
